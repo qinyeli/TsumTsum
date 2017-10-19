@@ -87,12 +87,10 @@ public class BlockManager: MonoBehaviour {
 	}
 
 	void OnDragEnd() {
-		int count = removeBlockList.Count;
-		if (count >= 3) {
-			for (int i = 0; i < count; i++) {
-				Destroy (removeBlockList[i]);
-			}
-			removeBlockList.Clear ();
+		if (removeBlockList.Count >= 3) {
+			ClearRemoveBlockList ();
+		} else {
+			ResetRemoveBlockList ();
 		}
 		firstBlock = null;
 		lastBlock  = null;
@@ -100,6 +98,22 @@ public class BlockManager: MonoBehaviour {
 
 	void AddToRemoveBlockList(GameObject block) {
 		removeBlockList.Add (block);
-		block.GetComponent<SpriteRenderer> ().color = new Color (2f, 2f, 2f, 0.5f);
+		block.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 0.5f);
+	}
+
+	// Distroy and move everyting out of removeBlockList
+	void ClearRemoveBlockList() {
+		for (int i = 0; i < removeBlockList.Count; i++) {
+			Destroy (removeBlockList[i]);
+		}
+		removeBlockList.Clear ();
+	}
+
+	// Move everything out of removeBlockList without distroying
+	void ResetRemoveBlockList() {
+		for (int i = 0; i < removeBlockList.Count; i++) {
+			removeBlockList[i].GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
+		}
+		removeBlockList.Clear ();
 	}
 }
