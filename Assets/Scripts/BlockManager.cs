@@ -19,11 +19,11 @@ public class BlockManager: MonoBehaviour {
 
 	void Update () {
 		if (Input.GetMouseButton (0) && firstBlock == null) {
-			OnClickStart ();
+			OnDragStart ();
 		} else if (Input.GetMouseButton (0) && firstBlock) {
-			OnClicking ();
+			OnDragging ();
 		} else if (Input.GetMouseButtonUp(0) && firstBlock) {
-			OnClickEnd ();
+			OnDragEnd ();
 		}
 	}
 
@@ -50,7 +50,7 @@ public class BlockManager: MonoBehaviour {
 		}
 	}
 
-	void OnClickStart() {
+	void OnDragStart() {
 		RaycastHit2D hit = Physics2D.Raycast(
 			Camera.main.ScreenToWorldPoint(Input.mousePosition),Vector2.zero);
 
@@ -66,7 +66,7 @@ public class BlockManager: MonoBehaviour {
 		}
 	}
 
-	void OnClicking() {
+	void OnDragging() {
 		RaycastHit2D hit = Physics2D.Raycast(
 			Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		
@@ -86,7 +86,7 @@ public class BlockManager: MonoBehaviour {
 		}
 	}
 
-	void OnClickEnd() {
+	void OnDragEnd() {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
 			for (int i = 0; i < count; i++) {
