@@ -74,11 +74,7 @@ public class BlockManager: MonoBehaviour {
 			GameObject hitObject = hit.collider.gameObject;
 
 			if (hitObject.name == removeBlockName && lastBlock != hitObject) {
-				float distance = Vector2.Distance(
-					hitObject.transform.position, lastBlock.transform.position);
-
-				print (distance);
-				if (distance < 1.0f) {
+				if (IsNewBlockRemovable(hitObject)) {
 					lastBlock = hitObject;
 					AddToRemoveBlockList (hitObject);
 				}
@@ -94,6 +90,13 @@ public class BlockManager: MonoBehaviour {
 		}
 		firstBlock = null;
 		lastBlock  = null;
+	}
+
+	bool IsNewBlockRemovable(GameObject newBlock) {
+		float distance = Vector2.Distance(
+			newBlock.transform.position, lastBlock.transform.position);
+		print (distance);
+		return (distance < 1.0f);
 	}
 
 	void AddToRemoveBlockList(GameObject block) {
