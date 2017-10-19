@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockGenerator : MonoBehaviour {
+public class BlockManager: MonoBehaviour {
 
 	public GameObject blockPrefab;
 	public Sprite[] blockSprites;
 
 	void Start () {
-		StartCoroutine(DropBlock(55));
+		StartCoroutine(GenerateBlocks(55));
 	}
 
-	IEnumerator DropBlock(int n){
+	IEnumerator GenerateBlocks(int n){
 		for (int i = 0; i < n; i++) {
 			// Generate a block every 0.02 seconds
 			yield return new WaitForSeconds (0.02f);
