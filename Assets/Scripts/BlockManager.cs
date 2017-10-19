@@ -83,8 +83,10 @@ public class BlockManager: MonoBehaviour {
 	}
 
 	void OnDragEnd() {
-		if (removeBlockList.Count >= 3) {
+		int count = removeBlockList.Count;
+		if (count >= 3) {
 			ClearRemoveBlockList ();
+			StartCoroutine(GenerateBlocks(count));
 		} else {
 			ResetRemoveBlockList ();
 		}
