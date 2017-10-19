@@ -61,7 +61,7 @@ public class BlockManager: MonoBehaviour {
 				firstBlock  = hitObject;
 				lastBlock   = hitObject;
 				removeBlockName = hitObject.name;
-				removeBlockList.Add (hitObject);
+				AddToRemoveBlockList (hitObject);
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class BlockManager: MonoBehaviour {
 				print (distance);
 				if (distance < 1.0f) {
 					lastBlock = hitObject;
-					removeBlockList.Add (hitObject);
+					AddToRemoveBlockList (hitObject);
 				}
 			}
 		}
@@ -96,5 +96,10 @@ public class BlockManager: MonoBehaviour {
 		}
 		firstBlock = null;
 		lastBlock  = null;
+	}
+
+	void AddToRemoveBlockList(GameObject block) {
+		removeBlockList.Add (block);
+		block.GetComponent<SpriteRenderer> ().color = new Color (2f, 2f, 2f, 0.5f);
 	}
 }
