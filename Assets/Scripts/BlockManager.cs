@@ -6,17 +6,15 @@ using UnityEngine;
 public class BlockManager: MonoBehaviour {
 
 	public GameObject blockPrefab;
-	public Sprite[] blockSprites;
 
 	GameObject firstBlock;
 	GameObject lastBlock;
-	String removeBlockName;
 	List<GameObject> removeBlockList = new List<GameObject>();
 
 	ScoreManager scoreManager;
 
 	void Start () {
-		StartCoroutine(GenerateBlocks(45));
+		StartCoroutine (GenerateBlocks (45));
 		scoreManager = new ScoreManager ();
 	}
 
@@ -25,62 +23,34 @@ public class BlockManager: MonoBehaviour {
 			OnDragStart ();
 		} else if (Input.GetMouseButton (0) && firstBlock) {
 			OnDragging ();
-		} else if (Input.GetMouseButtonUp(0) && firstBlock) {
+		} else if (Input.GetMouseButtonUp (0) && firstBlock) {
 			OnDragEnd ();
 		}
 	}
 
 	IEnumerator GenerateBlocks(int n){
 		for (int i = 0; i < n; i++) {
-			// Generate a block every 0.02 seconds
+			// Generate a new block every 0.02 seconds
 			yield return new WaitForSeconds (0.02f);
-
-			GameObject block = GameObject.Instantiate (blockPrefab);
-
-			int blockType = UnityEngine.Random.Range (0, 5);
-			block.name = "Block_" + blockType;
-			SpriteRenderer blockRenderer = block.GetComponent<SpriteRenderer> ();
-			blockRenderer.sprite = blockSprites[blockType];
-
-			block.transform.position = new Vector3(
-				UnityEngine.Random.Range (-2.0f, 2.0f),
-				10,
-				0);
-			block.transform.eulerAngles = new Vector3(
-				0,
-				0,
-				UnityEngine.Random.Range(-40f, 40f));
+			GameObject.Instantiate (blockPrefab);
 		}
 	}
 
 	void OnDragStart() {
-		RaycastHit2D hit = Physics2D.Raycast(
-			Camera.main.ScreenToWorldPoint(Input.mousePosition),Vector2.zero);
-
-		if (hit.collider != null) {
-			GameObject hitObject = hit.collider.gameObject;
-
-			if (hitObject.name.StartsWith("Block_")) {
-				firstBlock  = hitObject;
-				lastBlock   = hitObject;
-				removeBlockName = hitObject.name;
-				AddToRemoveBlockList (hitObject);
-			}
+		GameObject newBlock = MousedOverBlock ();
+		if (newBlock != null) {
+			firstBlock = newBlock;
+			lastBlock = newBlock;
+			AddToRemoveBlockList (newBlock);
 		}
 	}
 
 	void OnDragging() {
-		RaycastHit2D hit = Physics2D.Raycast(
-			Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		
-		if (hit.collider != null) {
-			GameObject hitObject = hit.collider.gameObject;
-
-			if (hitObject.name == removeBlockName && lastBlock != hitObject) {
-				if (IsNewBlockRemovable(hitObject)) {
-					lastBlock = hitObject;
-					AddToRemoveBlockList (hitObject);
-				}
+		GameObject newBlock = MousedOverBlock ();
+		if (newBlock != null && newBlock != lastBlock) {
+			if (IsNewBlockRemovable (newBlock)) {
+				lastBlock = newBlock;
+				AddToRemoveBlockList (newBlock);
 			}
 		}
 	}
@@ -88,9 +58,9 @@ public class BlockManager: MonoBehaviour {
 	void OnDragEnd() {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
-			scoreManager.AddScore (ScoreManager.CalculateScore(count, 1, false));
+			scoreManager.AddScore (ScoreManager.CalculateScore (count, 1, false));
 			ClearRemoveBlockList ();
-			StartCoroutine(GenerateBlocks(count));
+			StartCoroutine (GenerateBlocks (count));
 		} else {
 			ResetRemoveBlockList ();
 		}
@@ -98,30 +68,59 @@ public class BlockManager: MonoBehaviour {
 		lastBlock  = null;
 	}
 
+	GameObject MousedOverBlock() {
+		RaycastHit2D hit = Physics2D.Raycast (
+			Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
+
+		if (hit.collider != null) {
+			GameObject hitObject = hit.collider.gameObject;
+			if (Block.IsBlock (hitObject)) {
+				return hitObject;
+			}
+		}
+		return null;
+	}
+
 	bool IsNewBlockRemovable(GameObject newBlock) {
-		float distance = Vector2.Distance(
-			newBlock.transform.position, lastBlock.transform.position);
-		print (distance);
-		return (distance < 1.0f);
+		if (!Block.IsSameType (newBlock, firstBlock)) {
+			return false;
+		} else if (newBlock.GetComponent<Block> ().IsOnChain ()) {
+			return false;
+		}
+
+		// The first hit is ignored because it returns the origin itself
+		RaycastHit2D hit = Physics2D.RaycastAll (
+			(Vector2) lastBlock.transform.position,
+			(Vector2) (newBlock.transform.position - lastBlock.transform.position),
+			2)[1];
+
+		if (hit.collider != null) {
+			if (hit.collider.gameObject == newBlock.gameObject) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	void AddToRemoveBlockList(GameObject block) {
 		removeBlockList.Add (block);
-		block.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 0.5f);
+		block.GetComponent<Block> ().SetIsOnChain (true);
+		block.GetComponent<Block> ().SetTransparency (0.5f);
 	}
 
 	// Distroy and move everyting out of removeBlockList
 	void ClearRemoveBlockList() {
-		for (int i = 0; i < removeBlockList.Count; i++) {
-			Destroy (removeBlockList[i]);
+		foreach (GameObject block in removeBlockList) {
+			Destroy (block);
 		}
 		removeBlockList.Clear ();
 	}
 
 	// Move everything out of removeBlockList without distroying
 	void ResetRemoveBlockList() {
-		for (int i = 0; i < removeBlockList.Count; i++) {
-			removeBlockList[i].GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, 1f);
+		foreach (GameObject block in removeBlockList) {
+			block.GetComponent<Block> ().SetIsOnChain (false);
+			block.GetComponent<Block> ().SetTransparency (1f);
 		}
 		removeBlockList.Clear ();
 	}

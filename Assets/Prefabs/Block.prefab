@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 58840193558371174}
   - component: {fileID: 50850790640293788}
   - component: {fileID: 212172920795070854}
+  - component: {fileID: 114605369902268464}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -77,6 +78,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &114605369902268464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280329824221164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95ae449197c2437e9ab0cb40a4b5e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockSprites:
+  - {fileID: 21300000, guid: e835067c7a4af4749ad9c94bb2f3528b, type: 3}
+  - {fileID: 21300000, guid: 5bd2ea4e21b4e4dfcb7159cbfd09252c, type: 3}
+  - {fileID: 21300000, guid: 6d0684e5b9a404c77b821af45cad1320, type: 3}
+  - {fileID: 21300000, guid: 227ed185eb2314fcc911a219d6f0a37b, type: 3}
+  - {fileID: 21300000, guid: e7267c3070acf4512a458cc42d6bb252, type: 3}
 --- !u!212 &212172920795070854
 SpriteRenderer:
   m_ObjectHideFlags: 1
