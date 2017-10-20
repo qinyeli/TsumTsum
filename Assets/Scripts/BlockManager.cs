@@ -9,7 +9,7 @@ public class BlockManager: MonoBehaviour {
 
 	GameObject firstBlock;
 	GameObject lastBlock;
-	List<GameObject> removeBlockList = new List<GameObject>();
+	List<GameObject> removeBlockList = new List<GameObject> ();
 
 	ScoreManager scoreManager;
 
@@ -92,7 +92,7 @@ public class BlockManager: MonoBehaviour {
 		RaycastHit2D hit = Physics2D.RaycastAll (
 			(Vector2) lastBlock.transform.position,
 			(Vector2) (newBlock.transform.position - lastBlock.transform.position),
-			2)[1];
+			1)[1];
 
 		if (hit.collider != null) {
 			if (hit.collider.gameObject == newBlock.gameObject) {

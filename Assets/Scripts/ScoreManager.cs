@@ -45,10 +45,10 @@ public class ScoreManager {
 	public static int CalculateScore(int chain, int combo, bool fever) {
 		int chainScore = CalculateChainScore (chain);
 		if (fever) {
-			return (int)((blockScore * chain + chainScore) * 3);
+			return (int) ((blockScore * chain + chainScore) * 3);
 		} else {
 			float comboBonus = CalculateComboBonus (combo);
-			return (int)((blockScore * chain + chainScore) * (1 + comboBonus));
+			return (int) ((blockScore * chain + chainScore) * (1 + comboBonus));
 		}
 	}
 

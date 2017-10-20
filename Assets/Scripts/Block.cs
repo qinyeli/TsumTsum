@@ -14,14 +14,8 @@ public class Block : MonoBehaviour {
 		name = "Block_" + blockType;
 		GetComponent<SpriteRenderer> ().sprite = blockSprites[blockType];
 
-		transform.position = new Vector3(
-			UnityEngine.Random.Range (-2.0f, 2.0f),
-			10,
-			0);
-		transform.eulerAngles = new Vector3(
-			0,
-			0,
-			UnityEngine.Random.Range(-40f, 40f));
+		transform.position = new Vector3 (UnityEngine.Random.Range (-2.0f, 2.0f), 10, 0);
+		transform.eulerAngles = new Vector3 (0, 0, UnityEngine.Random.Range (-40f, 40f));
 	}
 
 	public void SetIsOnChain(bool isOnChain) {
