@@ -13,8 +13,11 @@ public class BlockManager: MonoBehaviour {
 	String removeBlockName;
 	List<GameObject> removeBlockList = new List<GameObject>();
 
+	ScoreManager scoreManager;
+
 	void Start () {
-		StartCoroutine(GenerateBlocks(55));
+		StartCoroutine(GenerateBlocks(45));
+		scoreManager = new ScoreManager ();
 	}
 
 	void Update () {
@@ -85,6 +88,7 @@ public class BlockManager: MonoBehaviour {
 	void OnDragEnd() {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
+			scoreManager.AddScore (ScoreManager.CalculateScore(count, 1, false));
 			ClearRemoveBlockList ();
 			StartCoroutine(GenerateBlocks(count));
 		} else {
