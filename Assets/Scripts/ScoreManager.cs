@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 /**
  * ScoreManager takes care of the scoring system. If it finds a UI Text element named ScoreGUI,
- * it updates the ScoreGUI text, but it works without ScoreGUI.
+ * it updates the ScoreGUI text, but it works fine without ScoreGUI.
  */
 public class ScoreManager {
 
