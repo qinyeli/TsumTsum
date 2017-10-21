@@ -72,9 +72,9 @@ public class BlockManager: MonoBehaviour {
 	void OnDragEnd() {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
-			//Vector3 lastBlockPosition = lastBlock.transform.position;
 			OnBlockClear(count);
 			if (count >= 7) {
+				// Since lastBlock is deleted in ClearRemoveBlockList, this has to go before that
 				GenerateBomb (lastBlock.transform.position);
 			}
 			ClearRemoveBlockList ();
