@@ -6,6 +6,7 @@ using UnityEngine;
 public class BlockManager: MonoBehaviour {
 
 	public GameObject blockPrefab;
+	public GameObject bombPrefab;
 
 	GameObject firstBlock;
 	GameObject lastBlock;
@@ -36,6 +37,11 @@ public class BlockManager: MonoBehaviour {
 		}
 	}
 
+	void GenerateBomb(Vector3 position) {
+		GameObject bomb = GameObject.Instantiate (bombPrefab);
+		bomb.transform.position = position;
+	}
+
 	void OnDragStart() {
 		GameObject newBlock = MousedOverBlock ();
 		if (newBlock != null) {
@@ -59,8 +65,15 @@ public class BlockManager: MonoBehaviour {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
 			scoreManager.AddScore (ScoreManager.CalculateScore (count, 1, false));
+			Vector3 lastBlockPosition = lastBlock.transform.position;
 			ClearRemoveBlockList ();
-			StartCoroutine (GenerateBlocks (count));
+
+			if (count >= 7) {
+				StartCoroutine (GenerateBlocks (count - 1));
+				GenerateBomb (lastBlockPosition);
+			} else {
+				StartCoroutine (GenerateBlocks (count));
+			}
 		} else {
 			ResetRemoveBlockList ();
 		}

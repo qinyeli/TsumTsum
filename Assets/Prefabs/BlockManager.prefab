@@ -53,9 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 1280329824221164, guid: 1e182b5407bb24471a26032582617fda,
     type: 2}
-  blockSprites:
-  - {fileID: 21300000, guid: e835067c7a4af4749ad9c94bb2f3528b, type: 3}
-  - {fileID: 21300000, guid: 5bd2ea4e21b4e4dfcb7159cbfd09252c, type: 3}
-  - {fileID: 21300000, guid: 6d0684e5b9a404c77b821af45cad1320, type: 3}
-  - {fileID: 21300000, guid: 227ed185eb2314fcc911a219d6f0a37b, type: 3}
-  - {fileID: 21300000, guid: e7267c3070acf4512a458cc42d6bb252, type: 3}
+  bombPrefab: {fileID: 1378005656373068, guid: ef0f0fb18e0e54ac9b5ac5dc34652997, type: 2}
