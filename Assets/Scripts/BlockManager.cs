@@ -39,13 +39,15 @@ public class BlockManager: MonoBehaviour {
 		for (int i = 0; i < n; i++) {
 			// Generate a new block every 0.02 seconds
 			yield return new WaitForSeconds (0.02f);
-			GameObject.Instantiate (blockPrefab);
+			GameObject block = GameObject.Instantiate (blockPrefab);
+			block.transform.parent = transform;
 		}
 	}
 
 	void GenerateBomb(Vector3 position) {
 		GameObject bomb = GameObject.Instantiate (bombPrefab);
 		bomb.transform.position = position;
+		bomb.transform.parent = transform;
 	}
 
 	void OnDragStart() {
@@ -70,18 +72,12 @@ public class BlockManager: MonoBehaviour {
 	void OnDragEnd() {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
-			scoreManager.AddScore (ScoreManager.CalculateScore (count, 1, false));
-			feverManager.AddFeverValue (count);
-
-			Vector3 lastBlockPosition = lastBlock.transform.position;
-			ClearRemoveBlockList ();
-
+			//Vector3 lastBlockPosition = lastBlock.transform.position;
+			OnBlockClear(count);
 			if (count >= 7) {
-				StartCoroutine (GenerateBlocks (count - 1));
-				GenerateBomb (lastBlockPosition);
-			} else {
-				StartCoroutine (GenerateBlocks (count));
+				GenerateBomb (lastBlock.transform.position);
 			}
+			ClearRemoveBlockList ();
 		} else {
 			ResetRemoveBlockList ();
 		}
@@ -146,5 +142,11 @@ public class BlockManager: MonoBehaviour {
 			block.GetComponent<Block> ().SetTransparency (1f);
 		}
 		removeBlockList.Clear ();
+	}
+
+	public void OnBlockClear(int chain) {
+		scoreManager.AddScore (ScoreManager.CalculateScore (chain, 1, false));
+		feverManager.AddFeverValue (chain);
+		StartCoroutine (GenerateBlocks (chain));
 	}
 }
