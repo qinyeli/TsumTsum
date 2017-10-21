@@ -13,12 +13,16 @@ public class BlockManager: MonoBehaviour {
 	List<GameObject> removeBlockList = new List<GameObject> ();
 
 	ScoreManager scoreManager;
+	FeverManager feverManager;
 	TimeManager timeManager;
 
 	void Start () {
 		StartCoroutine (GenerateBlocks (45));
 		scoreManager = gameObject.AddComponent<ScoreManager> ();
+		feverManager = gameObject.AddComponent<FeverManager> ();
 		timeManager = gameObject.AddComponent<TimeManager> ();
+
+		feverManager.RegisterOnFeverCallBack (() => timeManager.AddTime(5));
 	}
 
 	void Update () {
@@ -67,6 +71,7 @@ public class BlockManager: MonoBehaviour {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
 			scoreManager.AddScore (ScoreManager.CalculateScore (count, 1, false));
+			feverManager.AddFeverValue (count);
 
 			Vector3 lastBlockPosition = lastBlock.transform.position;
 			ClearRemoveBlockList ();
