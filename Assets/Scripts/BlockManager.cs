@@ -83,7 +83,7 @@ public class BlockManager: MonoBehaviour {
 
 	GameObject MousedOverBlock() {
 		RaycastHit2D hit = Physics2D.Raycast (
-			Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
+			                   Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
 
 		if (hit.collider != null) {
 			GameObject hitObject = hit.collider.gameObject;
@@ -101,15 +101,17 @@ public class BlockManager: MonoBehaviour {
 			return false;
 		}
 
-		// The first hit is ignored because it returns the origin itself
-		RaycastHit2D hit = Physics2D.RaycastAll (
-			(Vector2) lastBlock.transform.position,
-			(Vector2) (newBlock.transform.position - lastBlock.transform.position),
-			1)[1];
+		RaycastHit2D[] hits = Physics2D.RaycastAll (
+			                      (Vector2)lastBlock.transform.position,
+			                      (Vector2)(newBlock.transform.position - lastBlock.transform.position),
+			                      1);
 
-		if (hit.collider != null) {
-			if (hit.collider.gameObject == newBlock.gameObject) {
-				return true;
+		// The first hit is ignored because it returns the origin itself
+		if (hits.Length > 1) {
+			if (hits [1].collider != null) {
+				if (hits [1].collider.gameObject == newBlock.gameObject) {
+					return true;
+				}
 			}
 		}
 		return false;

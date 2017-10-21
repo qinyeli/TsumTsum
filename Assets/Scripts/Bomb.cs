@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	void OnMouseDown() {
+		Collider2D[] colliders = Physics2D.OverlapCircleAll (transform.position, 1f);
+		foreach (Collider2D collider in colliders) {
+			if (Block.IsBlock(collider.gameObject)) {
+				Destroy (collider.gameObject);
+			}
+		}
+		Destroy (gameObject);
 	}
 }
