@@ -5,7 +5,7 @@ using UnityEngine.UI;
  * ScoreManager takes care of the scoring system. If it finds a UI Text element named ScoreGUI,
  * it updates the ScoreGUI text, but it works fine without ScoreGUI.
  */
-public class ScoreManager {
+public class ScoreManager : MonoBehaviour {
 
 	static int blockScore = 50;
 	static int[] chainScoreMap = {
@@ -16,7 +16,7 @@ public class ScoreManager {
 	Text scoreText;
 	int score = 0;
 
-	public ScoreManager() {
+	void Start() {
 		GameObject canvas = GameObject.Find ("Canvas");
 		if (canvas != null) {
 			Transform scoreGUI = canvas.transform.Find ("ScoreGUI");

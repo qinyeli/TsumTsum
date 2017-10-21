@@ -13,10 +13,12 @@ public class BlockManager: MonoBehaviour {
 	List<GameObject> removeBlockList = new List<GameObject> ();
 
 	ScoreManager scoreManager;
+	TimeManager timeManager;
 
 	void Start () {
 		StartCoroutine (GenerateBlocks (45));
-		scoreManager = new ScoreManager ();
+		scoreManager = gameObject.AddComponent<ScoreManager> ();
+		timeManager = gameObject.AddComponent<TimeManager> ();
 	}
 
 	void Update () {
@@ -65,6 +67,7 @@ public class BlockManager: MonoBehaviour {
 		int count = removeBlockList.Count;
 		if (count >= 3) {
 			scoreManager.AddScore (ScoreManager.CalculateScore (count, 1, false));
+
 			Vector3 lastBlockPosition = lastBlock.transform.position;
 			ClearRemoveBlockList ();
 

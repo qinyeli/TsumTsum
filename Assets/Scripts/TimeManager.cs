@@ -7,7 +7,7 @@ using UnityEngine.UI;
  * Timer counts down 1 min. If it finds a UI Text element named TimeGUI, it updates
  * the TimeGUI text, but it works fine without TimeGUI.
  */
-public class Timer : MonoBehaviour {
+public class TimeManager : MonoBehaviour {
 	
 	Text timeText;
 	float time = 60;
@@ -29,6 +29,10 @@ public class Timer : MonoBehaviour {
 			time = 0;
 		}
 		SyncTimeGUI ();
+	}
+
+	public void AddTime(float deltaTime) {
+		time += deltaTime;
 	}
 
 	void SyncTimeGUI() {
