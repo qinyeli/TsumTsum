@@ -53,6 +53,10 @@ public class FeverManager : MonoBehaviour {
 		}
 	}
 
+	public bool IsFever() {
+		return isFever;
+	}
+
 	void OnFeverStart() {
 		isFever = true;
 		if (onFeverStartCallBack != null) {

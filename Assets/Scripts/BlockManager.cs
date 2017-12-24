@@ -145,7 +145,7 @@ public class BlockManager: MonoBehaviour {
 	}
 
 	public void OnBlockClear(int chain) {
-		scoreManager.AddScore (ScoreManager.CalculateScore (chain, 1, false));
+		scoreManager.AddScore (ScoreManager.CalculateScore (chain, 1, feverManager.IsFever()));
 		feverManager.AddFeverValue (chain);
 		StartCoroutine (GenerateBlocks (chain));
 	}
