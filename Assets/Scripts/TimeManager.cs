@@ -8,36 +8,36 @@ using UnityEngine.UI;
  * the TimeGUI text, but it works fine without TimeGUI.
  */
 public class TimeManager : MonoBehaviour {
-	
-	Text timeText;
-	float time = 60;
 
-	void Start() {
-		GameObject canvas = GameObject.Find ("Canvas");
-		if (canvas != null) {
-			Transform timeGUI = canvas.transform.Find ("TimeGUI");
-			if (timeGUI != null) {
-				timeText = timeGUI.GetComponent<Text> ();
-				SyncTimeGUI ();
-			}
-		}
-	}
+  Text timeText;
+  float time = 60;
 
-	void Update() {
-		time -= Time.deltaTime;
-		if (time < 0) {
-			time = 0;
-		}
-		SyncTimeGUI ();
-	}
+  void Start () {
+    GameObject canvas = GameObject.Find ("Canvas");
+    if (canvas != null) {
+      Transform timeGUI = canvas.transform.Find ("TimeGUI");
+      if (timeGUI != null) {
+        timeText = timeGUI.GetComponent<Text> ();
+        SyncTimeGUI ();
+      }
+    }
+  }
 
-	public void AddTime(float deltaTime) {
-		time += deltaTime;
-	}
+  void Update () {
+    time -= Time.deltaTime;
+    if (time < 0) {
+      time = 0;
+    }
+    SyncTimeGUI ();
+  }
 
-	void SyncTimeGUI() {
-		if (timeText != null) {
-			timeText.text = ((int)time).ToString ();
-		}
-	}
+  public void AddTime (float deltaTime) {
+    time += deltaTime;
+  }
+
+  void SyncTimeGUI () {
+    if (timeText != null) {
+      timeText.text = ((int) time).ToString ();
+    }
+  }
 }
